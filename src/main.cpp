@@ -4,11 +4,12 @@
 
 constexpr unsigned width    = 1280u; // Original window width
 constexpr unsigned height   = 960u;  // Original window height
-constexpr unsigned num_bars = 50;    // Number of bars (array length)
+constexpr unsigned num_bars = 10;    // Number of bars (array length)
 // TODO: num_bars should be a mutable config option.
 
-constexpr sf::Time delay_time = sf::milliseconds(0);  // Pause time on every iteration (of sorting)
-constexpr sf::Time swap_time  = sf::milliseconds(50); // Swap animation duration
+constexpr sf::Time delay_time = sf::milliseconds(250); // Pause time on every iteration (of sorting)
+constexpr sf::Time swap_time  = sf::milliseconds(500); // Swap animation duration
+constexpr sf::Time swap_delay = sf::milliseconds(100);
 
 /**
  * Drawing bars.
@@ -64,7 +65,11 @@ void drawBars(
 
         // Set color
         if (i == highlight1 || i == highlight2) {
-            bar.setFillColor(sf::Color::Red);
+            if (special1 >= 0.f || special2 >= 0.f) {
+                bar.setFillColor(sf::Color::Red);
+            } else {
+                bar.setFillColor(sf::Color::Yellow);
+            }
         } else {
             bar.setFillColor(sf::Color::White);
         }
@@ -156,7 +161,8 @@ int main() {
                 sj++;
             } else {
                 sorted[sj] = true;
-                sj         = 0;
+
+                sj = 0;
                 si++;
                 sf::sleep(delay_time);
                 if (si >= num_bars - 1) {
