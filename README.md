@@ -32,4 +32,4 @@ Build with CMake.
 None
 
 ---
-## Any Contributions Are Appreciated!
+## Any Contribution Is Appreciated!
